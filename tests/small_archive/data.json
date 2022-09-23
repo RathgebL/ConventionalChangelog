@@ -1,0 +1,168 @@
+[
+	{
+		"semver": null,
+		"hash": "6249199405ba704ca80e1a8ccca0331bc3cb4c7f",
+		"commits": [
+			{
+				"hash": "6249199405ba704ca80e1a8ccca0331bc3cb4c7f",
+				"type": "fix",
+				"scope": null,
+				"description": "switch to older Node.js version",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "7665ef9d28fa43dd3d2178f9b028a06f9803ca5b",
+				"type": "chore",
+				"scope": null,
+				"description": "fix remote",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "0d56010ef59280e105ffbd9f97d65df135dc14d4",
+				"type": "feat",
+				"scope": null,
+				"description": "switch to hub cli",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "565da6ea365a3376a6a98c649dab61d02ce1fa9d",
+				"type": "chore",
+				"scope": null,
+				"description": "what do we have to work with here",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "c44e40e02ba5ba5b05618fa6ac86789e1b32c640",
+				"type": "chore",
+				"scope": null,
+				"description": "don't get carried away",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "f64b30080bdab9cf5ed8d66a65d96eb10aef1549",
+				"type": "chore",
+				"scope": null,
+				"description": "reference docker container",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "1f57fdb9df960cee9edae50912d52d32b21237af",
+				"type": "chore",
+				"scope": null,
+				"description": "fix missing \\n",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "b4f6d51dbb89782b801c9b2ce157f5ae8d83ccf1",
+				"type": "feat",
+				"scope": null,
+				"description": "eat own dogfood",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "76ec9889afb50e0b9052a331be9890f30d6ee068",
+				"type": "chore",
+				"scope": null,
+				"description": "debug container",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "df22f2bd209caa77a4f7e7c689b52842e37490cd",
+				"type": "fix",
+				"scope": null,
+				"description": "run with env",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "7d8d7b47a0e079e483f8abbb41bbdcdca6ffa514",
+				"type": "feat",
+				"scope": null,
+				"description": "run standard-version command (#1)",
+				"body": "",
+				"footer": []
+			},
+			{
+				"hash": "2e8f41012cea7404db6c2dfe791b64c8021c7e74",
+				"type": "fix",
+				"scope": null,
+				"description": "make entrypoint executable",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "9242e9abd91b6130bed8207575bfeb3bbb48e51c",
+				"type": "chore",
+				"scope": null,
+				"description": "testing out docker build",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "3cd833a38234fc03b6c7c314271478c524aaae07",
+				"type": "chore",
+				"scope": null,
+				"description": "I am the worst at dockering",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "3ad55ebdd1a4c6e1f12945fe302da75b65d805db",
+				"type": "fix",
+				"scope": null,
+				"description": "should be LICENSE.txt",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "5c275663397e02eb5f7423378c7960a657c874e7",
+				"type": "chore",
+				"scope": null,
+				"description": "address linting issue",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "28c80fecd16a5d8ec1a52da543bd4fadcf82e8ce",
+				"type": "chore",
+				"scope": null,
+				"description": "address linting issue",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "1fb1d11ae82679570a7d5665293ee0b10dc7cef9",
+				"type": "chore",
+				"scope": null,
+				"description": "poking around container",
+				"body": null,
+				"footer": []
+			},
+			{
+				"hash": "e9f86aac370ec41793569b13b92f9c35da117650",
+				"type": "other",
+				"scope": null,
+				"description": "force build",
+				"body": "force build",
+				"footer": []
+			},
+			{
+				"hash": "3375447c409b9de704495959914723830cb82e47",
+				"type": "feat",
+				"scope": null,
+				"description": "initial commit of conventional commit action",
+				"body": null,
+				"footer": []
+			}
+		]
+	}
+]
