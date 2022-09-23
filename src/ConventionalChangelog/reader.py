@@ -48,8 +48,11 @@ def read_repo(repo: Repo):
                 (semver.Version.parse(tag.name.removeprefix("v")), tag.commit.hexsha)
             )
     tags.sort()
-    prev = tags[len(tags) - 1]
-    next_version = semver.Version(prev[0].major + 1, 0, 0)
+    if len(tags) > 0:
+        prev = tags[len(tags) - 1]
+        next_version = semver.Version(prev[0].major + 1, 0, 0)
+    else:
+        next_version = semver.Version.parse("1.0.0")
     tags.append((next_version, repo.head.commit.hexsha))
 
     versions = []
