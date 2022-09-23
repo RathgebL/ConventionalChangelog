@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ConventionalChangelog"
+description = "Tool to generate changelogs from a project's commit messages and metadata."
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Lennart Rathgeb", email = "108350061+RathgebL@users.noreply.github.com" },
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+]
+dependencies = []
+dynamic = ["version"]
+
+[project.urls]
+Documentation = "https://github.com/RathgebL/ConventionalChangelog#readme"
+Issues = "https://github.com/RathgebL/ConventionalChangelog/issues"
+Source = "https://github.com/RathgebL/ConventionalChangelog"
+
+[project.scripts]
+conventional-changelog = "ConventionalChangelog.main:main"
+
+[tool.hatch.version]
+path = "./version"
+pattern = "(?P<version>.+)"
+
+[tool.hatch.envs.default]
+dependencies = ["pytest", "pytest-cov"]
+[tool.hatch.envs.default.scripts]
+cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/ConventionalChangelog --cov=tests"
+no-cov = "cov --no-cov"
+
+[[tool.hatch.envs.test.matrix]]
+python = ["37", "38", "39", "310", "311"]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+
+[tool.coverage.report]
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
