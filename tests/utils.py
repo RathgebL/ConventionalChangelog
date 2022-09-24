@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: MIT
 
-import json
 from os import path
 
 SCRIPT_DIR = path.dirname(__file__)
