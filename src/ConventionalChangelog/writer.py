@@ -2,24 +2,34 @@
 #
 # SPDX-License-Identifier: MIT
 
-from string import Template
+CHANGELOG_HEADER = """# Change Log
+
+All notable changes to this project will be documented in this file.
+
+"""
+
+
+def semver_to_string(version):
+    # a semver version includes always major.minor.patch
+    result = "{}.{}.{}".format(version["major"], version["minor"], version["patch"])
+    # optional prerelease suffix
+    result += ("-" + version["prerelease"]) if version["prerelease"] else ""
+    # optional build suffix
+    result += ("+" + version["build"]) if version["build"] else ""
+    return result
 
 
 def write_changelog(versions):
     versions.reverse()
-    a = "# Change Log\n\nAll notable changes to this project will be documented in this file.\n\n"
+    result = CHANGELOG_HEADER
 
     for version in versions:
-        v = version["semver"]
-        if v:
-            a += Template("## [${major}.${minor}.${patch}").substitute(
-                major=v["major"], minor=v["minor"], patch=v["patch"])
-            if v["prerelease"]:
-                a += "-" + v["prerelease"]
-            if v["build"]:
-                a += "+" + v["build"]
-            a += "]\n\n"
+        # version["semver"] is None for the latest unreleased commits
+        if version["semver"]:
+            result += semver_to_string(version["semver"])
         for commit in version["commits"]:
-            a = a + "- **"+commit["type"]+"**: "+commit["description"]+"\n"
-        a = a + "\n"
-    return a[:-1]
+            result += "- **{}**: {}\n".format(commit["type"], commit["description"])
+        result += "\n"
+
+    # Remove final newline
+    return result[:-1]
