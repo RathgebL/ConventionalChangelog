@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: MIT
 
+from ConventionalChangelog import _types
+
 CHANGELOG_HEADER = """# Change Log
 
 All notable changes to this project will be documented in this file.
@@ -9,7 +11,7 @@ All notable changes to this project will be documented in this file.
 """
 
 
-def semver_to_string(version):
+def semver_to_string(version: _types.SemVerDict) -> str:
     # a semver version includes always major.minor.patch
     result = "{}.{}.{}".format(version["major"], version["minor"], version["patch"])
     # optional prerelease suffix
@@ -19,7 +21,7 @@ def semver_to_string(version):
     return result
 
 
-def write_changelog(versions):
+def write_changelog(versions: list[_types.VersionDict]) -> str:
     versions.reverse()
     result = CHANGELOG_HEADER
 

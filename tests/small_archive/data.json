@@ -152,7 +152,7 @@
 				"type": "other",
 				"scope": null,
 				"description": "force build",
-				"body": "force build",
+				"body": null,
 				"footer": []
 			},
 			{

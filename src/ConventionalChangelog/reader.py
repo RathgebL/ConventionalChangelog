@@ -2,35 +2,42 @@
 #
 # SPDX-License-Identifier: MIT
 
-from git import Commit, Repo
-from semver import Version
 import re
+from typing import Set
+from git.repo.base import Repo
+from git.objects.commit import Commit
+from semver.version import Version
+from ConventionalChangelog import _types
 
 COMMIT_REGEX = re.compile(
     r"^(?P<type>feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(?P<scope>\(\w+\)?((?=:\s)|(?=!:\s)))?(?P<breaking>!)?(?P<subject>:\s.*)?|^(?P<merge>Merge \w+)"
 )
 
 
-def get_description(message_parts, match_dict):
-    if match_dict["subject"]:
-        message_parts.pop(0)
-        return match_dict["subject"].removeprefix(": ")
-    else:
-        return message_parts.pop(0)
+def semver_to_dict(version: Version) -> _types.SemVerDict:
+    return {
+        "major": version.major,
+        "minor": version.minor,
+        "patch": version.patch,
+        "prerelease": version.prerelease,
+        "build": version.build,
+    }
 
 
-def read_commit(commit: Commit):
-    parts = commit.message.split("\n\n")
-    parts[0] = parts[0].replace("\n", " ").strip()
-    res = COMMIT_REGEX.match(parts[0])
+def read_commit(commit: Commit) -> _types.CommitDict:
+    parts = str(commit.message).split("\n\n")
+    first_line = parts.pop(0).replace("\n", " ").strip()
+    res = COMMIT_REGEX.match(first_line)
     if res:
         match = res.groupdict()
         return {
             "hash": commit.hexsha,
             "type": match["type"] if match["type"] else "other",
             "scope": match["scope"],
-            "description": get_description(parts, match),
-            "body": parts.pop() if len(parts) > 0 else None,
+            "description": match["subject"].removeprefix(": ")
+            if match["subject"]
+            else first_line,
+            "body": parts.pop(0) if len(parts) > 0 else None,
             "footer": parts,
         }
     else:
@@ -38,14 +45,14 @@ def read_commit(commit: Commit):
             "hash": commit.hexsha,
             "type": "other",
             "scope": None,
-            "description": parts[0],
+            "description": first_line,
             "body": parts.pop(0) if len(parts) > 0 else None,
             "footer": parts,
         }
 
 
-def read_version_tags(repo):
-    tags = []
+def read_version_tags(repo: Repo) -> list[tuple[Version | None, str]]:
+    tags: list[tuple[Version | None, str]] = []
     for tag in repo.tags:
         version_string = tag.name.removeprefix("v")
         if Version.isvalid(version_string):
@@ -56,18 +63,18 @@ def read_version_tags(repo):
     return tags
 
 
-def read_repo(repo: Repo):
+def read_repo(repo: Repo) -> list[_types.VersionDict]:
     versions = []
-    commits = set()
+    commits: Set[str] = set()
 
-    def commits_includes(commit):
+    def commits_includes(commit: Commit) -> bool:
         x = commits.isdisjoint([commit.hexsha])
         commits.add(commit.hexsha)
         return x
 
     for tag in read_version_tags(repo):
-        version = {
-            "semver": tag[0].to_dict() if tag[0] else None,
+        version: _types.VersionDict = {
+            "semver": semver_to_dict(tag[0]) if tag[0] else None,
             "hash": tag[1],
             "commits": [],
         }

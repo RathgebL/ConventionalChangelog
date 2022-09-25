@@ -37,10 +37,11 @@ path = "./version"
 pattern = "(?P<version>.+)"
 
 [tool.hatch.envs.default]
-dependencies = ["pytest", "pytest-cov"]
+dependencies = ["pytest", "pytest-cov", "mypy"]
 [tool.hatch.envs.default.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/ConventionalChangelog --cov=tests"
 no-cov = "cov --no-cov"
+check = "mypy --strict ."
 
 [[tool.hatch.envs.test.matrix]]
 python = ["37", "38", "39", "310", "311"]

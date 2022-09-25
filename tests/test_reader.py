@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT
 
 import json
-from git import Repo
+from git.repo.base import Repo
 
 from ConventionalChangelog.reader import read_repo
 from tests.utils import read_file
@@ -12,7 +12,7 @@ from tests.utils import read_file
 URL = "https://github.com/conventional-commits/conventional-commits-action.git"
 
 
-def test_reader(tmp_path):
+def test_reader(tmp_path: str) -> None:
     repo = Repo.clone_from(URL, tmp_path)
     expected = json.loads(read_file("./small_archive/data.json"))
     result = read_repo(repo)

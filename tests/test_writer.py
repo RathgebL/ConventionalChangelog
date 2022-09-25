@@ -6,7 +6,7 @@ import json
 from ConventionalChangelog.writer import write_changelog
 from tests.utils import read_file
 
-def test_writer():
+def test_writer() -> None:
     data = json.loads(read_file("./small_archive/data.json"))
     expected = read_file("./small_archive/result.md")
     result = write_changelog(data)

@@ -4,13 +4,13 @@
 
 import os
 from sys import argv
-from git import Repo
+from git.repo.base import Repo
 from ConventionalChangelog import reader
 from ConventionalChangelog import writer
 
 
 def main() -> None:
-    path = path.abspath(argv[1]) if len(argv) > 1 else os.getcwd()
+    path = os.path.abspath(argv[1]) if len(argv) > 1 else os.getcwd()
     repo = Repo(path)
     data = reader.read_repo(repo)
     changelog = writer.write_changelog(data)
