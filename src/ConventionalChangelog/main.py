@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: MIT
 
-import json
 import os
 from sys import argv
 from git import Repo
