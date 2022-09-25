@@ -3,11 +3,11 @@
 # SPDX-License-Identifier: MIT
 
 from git import Commit, Repo
-import semver
+from semver import Version
 import re
 
 COMMIT_REGEX = re.compile(
-    "^(?P<type>feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(?P<scope>\(\w+\)?((?=:\s)|(?=!:\s)))?(?P<breaking>!)?(?P<subject>:\s.*)?|^(?P<merge>Merge \w+)"
+    r"^(?P<type>feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(?P<scope>\(\w+\)?((?=:\s)|(?=!:\s)))?(?P<breaking>!)?(?P<subject>:\s.*)?|^(?P<merge>Merge \w+)"
 )
 
 
@@ -44,36 +44,39 @@ def read_commit(commit: Commit):
         }
 
 
-def read_repo(repo: Repo):
+def read_version_tags(repo):
     tags = []
     for tag in repo.tags:
-        if semver.Version.isvalid(tag.name.removeprefix("v")):
-            tags.append(
-                (semver.Version.parse(tag.name.removeprefix("v")), tag.commit.hexsha)
-            )
-    tags.sort()
-    if len(tags) > 0:
-        prev = tags[len(tags) - 1]
-        next_version = semver.Version(prev[0].major + 1, 0, 0)
-    else:
-        next_version = semver.Version.parse("1.0.0")
-    tags.append((next_version, repo.head.commit.hexsha))
+        version_string = tag.name.removeprefix("v")
+        if Version.isvalid(version_string):
+            tags.append((Version.parse(version_string), tag.commit.hexsha))
 
+    tags.sort()
+    tags.append((None, repo.head.commit.hexsha))
+    return tags
+
+
+def read_repo(repo: Repo):
     versions = []
     commits = set()
 
-    for tag in tags:
+    def commits_includes(commit):
+        x = commits.isdisjoint([commit.hexsha])
+        commits.add(commit.hexsha)
+        return x
+
+    for tag in read_version_tags(repo):
         version = {
-            "semver": tag[0].to_dict() if tag[0] != next_version else None,
+            "semver": tag[0].to_dict() if tag[0] else None,
             "hash": tag[1],
             "commits": [],
         }
-        la = list(
-            filter(lambda x: commits.isdisjoint([x.hexsha]), repo.iter_commits(tag[1]))
-        )
-        for li in la:
-            commits.add(li.hexsha)
-            version["commits"].append(read_commit(li))
+
+        unique_commits = filter(commits_includes, repo.iter_commits(tag[1]))
+
+        for commit in unique_commits:
+            commits.add(commit.hexsha)
+            version["commits"].append(read_commit(commit))
 
         versions.append(version)
 
